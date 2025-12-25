@@ -6,7 +6,7 @@ This project contains the official implementation for the IEEE TPAMI 2025 Paper 
 
 ## Directory Structure
 
-
+This repository follows the directory structure of [https://github.com/hujinCN/aiworkflow](https://github.com/hujinCN/aiworkflow).
 
 model definition: **[models](sources_root/dynamic_example/models)** 
 
@@ -36,8 +36,9 @@ pip install diffusers torchattacks kornia imgaug openai-clip opencv-python matpl
 
 3. prepare detlib
 
-See [README.md](..%2Fdet_root%2Fdetlib%2FREADME.md), section _Pretrained models_.
+See [README.md](sources_root/det_root/detlib/README.md), section _Pretrained models_.
 
+This submodule is from [T-SEA](https://github.com/VDIGPKU/T-SEA) project. See [LICENSE](https://github.com/VDIGPKU/T-SEA?tab=readme-ov-file#license)].
 
 4. Download the datasets.
    
