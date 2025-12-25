@@ -1,0 +1,208 @@
+batch_size: 32
+clean_val: false
+det_loss: !!python/object/new:easydict.EasyDict
+  dictitems:
+    conf_thresh: 0.001
+    iou_thresh: 0.3
+    supress_clsses: 0
+  state:
+    conf_thresh: 0.001
+    iou_thresh: 0.3
+    supress_clsses: 0
+detach_vae: false
+detect_pixel: 640
+detector_cfg: /mnt/data2/hujin/dynamicPAE_publish/configs/detlib/combine/v5.yaml
+evaluation: !!python/object/new:easydict.EasyDict
+  dictitems:
+    ASR1: &id001 !!python/object/new:easydict.EasyDict
+      dictitems:
+        name: ASR 50
+        threshold: 0.5
+        type: asr
+      state:
+        name: ASR 50
+        threshold: 0.5
+        type: asr
+    ASR2: &id002 !!python/object/new:easydict.EasyDict
+      dictitems:
+        name: ASR 25
+        threshold: 0.25
+        type: asr
+      state:
+        name: ASR 25
+        threshold: 0.25
+        type: asr
+    ASR3: &id003 !!python/object/new:easydict.EasyDict
+      dictitems:
+        name: ASR 10
+        threshold: 0.1
+        type: asr
+      state:
+        name: ASR 10
+        threshold: 0.1
+        type: asr
+    ASR4: &id004 !!python/object/new:easydict.EasyDict
+      dictitems:
+        name: ASR 01
+        threshold: 0.01
+        type: asr
+      state:
+        name: ASR 01
+        threshold: 0.01
+        type: asr
+    lpips: &id005 !!python/object/new:easydict.EasyDict
+      dictitems:
+        name: LPIPS
+        type: lpips
+      state:
+        name: LPIPS
+        type: lpips
+    mAP1: &id006 !!python/object/new:easydict.EasyDict
+      dictitems:
+        conf: 0.5
+        iou: 0.5
+        name: mAP c50
+        type: AP single
+      state:
+        conf: 0.5
+        iou: 0.5
+        name: mAP c50
+        type: AP single
+    mAP2: &id007 !!python/object/new:easydict.EasyDict
+      dictitems:
+        conf: 0.1
+        iou: 0.5
+        name: mAP c01
+        type: AP single
+      state:
+        conf: 0.1
+        iou: 0.5
+        name: mAP c01
+        type: AP single
+    mAP3: &id008 !!python/object/new:easydict.EasyDict
+      dictitems:
+        conf: 0.01
+        iou: 0.5
+        name: mAP c001
+        type: AP single
+      state:
+        conf: 0.01
+        iou: 0.5
+        name: mAP c001
+        type: AP single
+    mAPiou75: &id009 !!python/object/new:easydict.EasyDict
+      dictitems:
+        conf: 0.5
+        iou: 0.75
+        name: mAP c50iou75
+        type: AP single
+      state:
+        conf: 0.5
+        iou: 0.75
+        name: mAP c50iou75
+        type: AP single
+    msssim: &id010 !!python/object/new:easydict.EasyDict
+      dictitems:
+        name: MS-SSIM
+        type: msssim
+      state:
+        name: MS-SSIM
+        type: msssim
+    ssim: &id011 !!python/object/new:easydict.EasyDict
+      dictitems:
+        name: SSIM
+        type: ssim
+      state:
+        name: SSIM
+        type: ssim
+  state:
+    ASR1: *id001
+    ASR2: *id002
+    ASR3: *id003
+    ASR4: *id004
+    lpips: *id005
+    mAP1: *id006
+    mAP2: *id007
+    mAP3: *id008
+    mAPiou75: *id009
+    msssim: *id010
+    ssim: *id011
+gaussian_blur: true
+grad_rescale: true
+grad_task_norm: true
+gradient_clip_val: 1.0
+input_pixel: 640
+input_scale: 2.0
+lambda_atk: 0.1
+lambda_distortion: 100.0
+lambda_high_freq: 0.0
+lambda_registration: 100.0
+lambda_tv: 0.02
+lambda_vae: 1.0
+lambda_vae_adv: 0.0
+log_norms: false
+lr: 0.001
+mask_output: false
+model_config: !!python/object/new:easydict.EasyDict
+  dictitems:
+    fea_dim: 1024
+    flatten: true
+    latent_dim: 512
+    pos_emb: true
+    resize: 256
+  state:
+    fea_dim: 1024
+    flatten: true
+    latent_dim: 512
+    pos_emb: true
+    resize: 256
+motion_patch: !!python/object/new:easydict.EasyDict
+  dictitems:
+    force_ratio: 1.0
+    pos_range: 0.1
+    rotate_sigma: 0.05
+    rotate_z_sigma: 0.0
+    size_min: &id012
+    - 0.05
+    - 0.05
+    size_mu: &id013
+    - 0.05
+    - 0.05
+    size_range: 0.01
+  state:
+    force_ratio: 1.0
+    pos_range: 0.1
+    rotate_sigma: 0.05
+    rotate_z_sigma: 0.0
+    size_min: *id012
+    size_mu: *id013
+    size_range: 0.01
+num_workers: 16
+patch_pixel: 256
+patch_scale: 0.2
+path_to_ckpts: /mnt/data2/hujin/dynamicPAE_publish/TODO/checkpoints/
+path_to_coco: /mnt/data2/hujin/dynamicPAE_publish/TODO/coco/train2017/
+path_to_coco_annotation: /mnt/data2/hujin/dynamicPAE_publish/TODO/coco/annotations/instances_train2017.json
+path_to_coco_val: /mnt/data2/hujin/dynamicPAE_publish/TODO/coco/val2017/
+path_to_coco_val_annotation: /mnt/data2/hujin/dynamicPAE_publish/TODO/coco/annotations/instances_val2017.json
+pin_memory: true
+pre_test: false
+rand_local: false
+relax_ratio: 0.001
+sigma_generator_atten:
+- 1.0
+- 2.0
+- 3.0
+single_val: true
+start_train_atk: 5000
+start_train_env: 4000
+use_gan: false
+use_pretrain_vq: false
+vae_reinclude_sample: false
+val_lambdas:
+- 0.99
+- 0.75
+- 0.4
+- 0.2
+- 0.1
+validation_sample_cnt: 10

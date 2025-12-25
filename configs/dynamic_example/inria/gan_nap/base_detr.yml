@@ -1,0 +1,188 @@
+# spark self attack
+
+
+trainer:
+  min_epochs: 2 # prevents early stopping
+  max_epochs: 1000
+  check_val_every_n_epoch:  64
+#  val_check_interval: 1
+  devices: 1
+
+  # mixed precision for extra speed-up
+#  precision: bf16-mixed
+#  precision:
+  precision: 32
+  # '16-mixed', 'bf16-mixed', '32-true', '64-true', 64, 32, 16, '64', '32', '16', 'bf16')
+
+
+  # perform a validation loop every N training epochs
+  # check_val_every_n_epoch: 1
+
+  # set True to ensure deterministic results
+  # makes training slower but gives more reproducibility than just setting seeds
+  deterministic: False
+  log_every_n_steps: 10
+
+train_model:
+
+  detector: "rtdetr-l"
+  path_to_ckpts: "$dataset/checkpoints/"
+
+  path_to_coco_val: "$dataset/INRIAPerson/"
+  path_to_coco: "$dataset/INRIAPerson/"
+  #  path_to_coco_annotation: "/media/datasets/coco/annotations/instances_val2014.json"
+  path_to_coco_val_annotation: "$dataset/INRIAPerson/test_ann_xywh.json"
+  path_to_coco_annotation: "$dataset/INRIAPerson/train_ann_xywh.json"
+
+
+#  path_to_coco_val: "$dataset/INRIAPerson/"
+#  path_to_coco: "$dataset/INRIAPerson/"
+#  #  path_to_coco_annotation: "/media/datasets/coco/annotations/instances_val2014.json"
+#  path_to_coco_val_annotation: "$dataset/INRIAPerson/test_ann_xywh.json"
+#  path_to_coco_annotation: "$dataset/INRIAPerson/train_ann_xywh.json"
+
+
+
+  single_val: true
+  clean_val: false
+  num_workers: 16
+  validation_sample_cnt: 10
+
+  batch_size: 16
+  pin_memory: true
+  lr: 0.02
+
+  z_dim: 64
+  input_pixel: 640
+  detect_pixel: 640
+  patch_pixel: 128
+  input_scale: 2.0
+
+  lambda_distortion: 1.0
+  lambda_kl: 1.0
+  lambda_vae: 1.0 # 10.0
+  lambda_det: 1.0
+  lambda_tv: 5.0
+
+  gaussian_blur: true
+
+
+
+
+
+
+
+  by_rectangle: true
+  enable_rotation: false
+  enable_randomLocation: false
+  enable_crease: false
+  enable_projection: false
+  enable_rectOccluding: false
+  enable_blurred: false
+  enable_with_bbox: true
+  enable_show_plt: false
+  enable_clear_output: false
+  multi_score: true
+  weight_loss_tv: 0.1
+  weight_loss_overlap: 0.0
+  retrain_gan: false
+  n_epochs: 1000
+  start_epoch: 1
+  learing_rate: 0.02
+  epoch_save: 10001
+  cls_id_attacked: 0
+  cls_id_generation: 259 # Pomeranian
+  alpha_latent: 1.0
+  rowPatch_size: 128
+  method_num: 2
+  enable_shift_deformator: false
+  enable_human_annotated_directions: false
+  max_value_latent_item: 10
+  enable_init_latent_vectors: false
+  enable_show_init_patch: false
+  enable_discriminator: false
+
+  pretrained_gan_root: "$dataset/checkpoints/pretrained_biggan/pretrained/deformators/BigGAN/"
+  pretrained_gan_weight: '$dataset/checkpoints/pretrained_biggan/pretrained/generators/BigGAN/G_ema.pth'
+
+
+  det_loss:
+    supress_clsses: 0
+    iou_thresh: 0.3
+    conf_thresh: 0.001
+
+
+
+  # BASE
+  motion_patch:
+    size_mu: [ 0.05, 0.05 ] # sqrt(0.05) ~ 0.22), for human bbox with [1:4] , patch height = 1/7.07 bbox height, ~person head
+    size_min: [ 0.05, 0.05 ] # 32 x 32 pix for 640 image
+    size_range: 0.01 # sizerange : 0.04 - 0.06
+    pos_range: 0.1
+    rotate_sigma: 0.05
+    rotate_z_sigma: 0.0
+    force_ratio: 1.0
+
+#  motion_patch:
+#    size_mu: [0.09, 0.09] # sqrt(0.08 ~ 0.28), for human bbox with [1:4] , patch height = 1/7.07 bbox height, ~person head
+#    size_min: [0.05, 0.05] # 32 x 32 pix for 640 image
+#    size_range: 0.01 # sizerange : 0.04 - 0.06
+#    pos_range: 0.01
+#    rotate_sigma: 0.05
+#    rotate_z_sigma: 0.0
+#    force_ratio: 1.0
+
+
+
+#  EOT:
+#    brightness: .1 # 0.1
+#    gaussian_sigma: [0.1, 1.0] # [0.1, 0.2]
+#    contrast: .1 # 0.2
+#    brightness: .0 # 0.1
+#    gaussian_sigma: null
+#    contrast: .0 # 0.2
+
+  evaluation:
+    mAP1:
+      name: "mAP c50"
+      type: "AP single"
+      iou: 0.5
+      conf: 0.5
+
+    mAP2:
+      name: "mAP c01"
+      type: "AP single"
+      iou: 0.5
+      conf: 0.1
+
+    mAP3:
+      name: "mAP c001"
+      type: "AP single"
+      iou: 0.5
+      conf: 0.01
+
+    mAPiou75:
+      name: "mAP c50iou75"
+      type: "AP single"
+      iou: 0.75
+      conf: 0.5
+
+    ssim:
+      name: "SSIM"
+      type: "ssim"
+
+    lpips:
+      name: "LPIPS"
+      type: "lpips"
+
+    msssim:
+      name: "MS-SSIM"
+      type: "msssim"
+
+
+
+
+
+
+
+

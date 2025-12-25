@@ -1,0 +1,225 @@
+# spark self attack
+
+
+trainer:
+  min_epochs: 2 # prevents early stopping
+  max_epochs: 128
+  check_val_every_n_epoch:  4
+  ckpt_interval: 2
+#  val_check_interval: 1
+  devices: 1
+
+  # mixed precision for extra speed-up
+#  precision: bf16-mixed
+#  precision:
+  precision: bf16-mixed
+  # '16-mixed', 'bf16-mixed', '32-true', '64-true', 64, 32, 16, '64', '32', '16', 'bf16')
+
+
+  # perform a validation loop every N training epochs
+  # check_val_every_n_epoch: 1
+
+  # set True to ensure deterministic results
+  # makes training slower but gives more reproducibility than just setting seeds
+  deterministic: False
+  log_every_n_steps: 10
+
+
+train_model:
+#  detector: "v3"
+  detector_cfg: "$config/detlib/combine/v3.yaml"
+  path_to_ckpts: "$dataset/checkpoints/"
+#  path_to_coco: "/media/datasets/coco/val2014/"
+  path_to_coco_val: "$dataset/coco/val2017/"
+  path_to_coco: "$dataset/coco/train2017/"
+#  path_to_coco_annotation: "/media/datasets/coco/annotations/instances_val2014.json"
+  path_to_coco_val_annotation: "$dataset/coco/annotations/instances_val2017.json"
+  path_to_coco_annotation: "$dataset/coco/annotations/instances_train2017.json"
+
+
+#  path_to_coco_val: "$dataset/INRIAPerson/"
+#  path_to_coco: "$dataset/INRIAPerson/"
+#  #  path_to_coco_annotation: "/media/datasets/coco/annotations/instances_val2014.json"
+#  path_to_coco_val_annotation: "$dataset/INRIAPerson/test_ann_xywh.json"
+#  path_to_coco_annotation: "$dataset/INRIAPerson/train_ann_xywh.json"
+
+
+
+  single_val: true
+  clean_val: false
+  num_workers: 16
+  log_norms: false # log gradient norm to tensorboard. may time-consuming
+  gradient_clip_val: 1.0
+  validation_sample_cnt: 10
+
+  batch_size: 32
+  pin_memory: true
+  lr: 0.001
+
+
+  use_pretrain_vq: false
+  input_pixel: 608
+  detect_pixel: 608
+  patch_pixel: 256
+  input_scale: 2.0
+
+  lambda_atk: 0.1 # init attack ratio.
+  lambda_distortion: 100.0 # Auto readjusted.
+  lambda_high_freq: 0.0 # ~ lambda_distortion
+  lambda_tv: 0.02 # replaced with lambda_high_freq
+#  lambda_tv: 0.002 # replaced with lambda_high_freq
+#  lambda_tv: 0.0 # replaced with lambda_high_freq
+#  include_dec_fea: "C3shakedrop"
+
+  lambda_vae: 1.0 # 10.0
+  lambda_vae_adv: 0.0
+  start_train_env: 4000
+  start_train_atk: 5000
+  mask_output: false
+  vae_reinclude_sample: false
+
+  detach_vae: false
+  rand_local: false
+
+  use_gan: false
+  lambda_registration: 100.0
+  sigma_generator_atten: [1.0, 2.0, 3.0]
+  grad_rescale: true
+  grad_task_norm: true
+  gaussian_blur: true
+
+#  model_config:
+#    emb_dim: 128
+#    latent_dim: 32
+#    fea_dim: 512
+#    resize: 256
+#    pos_emb: true
+#
+
+
+  model_config:
+    flatten: true
+    latent_dim: 512
+    fea_dim: 1024
+    resize: 256
+    pos_emb: true
+
+
+
+  relax_ratio: 0.001
+  patch_scale: 0.2 # patch covers $patch_scale$ of env input in attention model
+
+
+  val_lambdas: [0.99, 0.75, 0.4, 0.2, 0.1]
+
+
+
+  # Zero
+#  motion_patch:
+#    size_mu: [0.05, 0.05] # sqrt(0.05) ~ 0.22), for human bbox with [1:4] , patch height = 1/7.07 bbox height, ~person head
+#    size_min: [0.05, 0.05] # 32 x 32 pix for 640 image
+#    size_range: 0.00 # sizerange : 0.04 - 0.06
+#    pos_range: 0.0
+#    rotate_sigma: 0.00
+#    rotate_z_sigma: 0.0
+#    force_ratio: 1.0
+
+  # BASE
+  motion_patch:
+    size_mu: [ 0.05, 0.05 ] # sqrt(0.05) ~ 0.22), for human bbox with [1:4] , patch height = 1/7.07 bbox height, ~person head
+    size_min: [ 0.05, 0.05 ] # 32 x 32 pix for 640 image
+    size_range: 0.01 # sizerange : 0.04 - 0.06
+    pos_range: 0.1
+    rotate_sigma: 0.05
+    rotate_z_sigma: 0.0
+    force_ratio: 1.0
+
+  # P1
+#  motion_patch:
+#    size_mu: [ 0.05, 0.05 ] # sqrt(0.05) ~ 0.22), for human bbox with [1:4] , patch height = 1/7.07 bbox height, ~person head
+#    size_min: [ 0.05, 0.05 ] # 32 x 32 pix for 640 image
+#    size_range: 0.01 # sizerange : 0.03 - 0.07
+#    pos_range: 0.15
+#    rotate_sigma: 0.05
+#    rotate_z_sigma: 0.0
+#    force_ratio: 1.0
+
+  # SR1
+#  motion_patch:
+#    size_mu: [ 0.05, 0.05 ] # sqrt(0.05) ~ 0.22), for human bbox with [1:4] , patch height = 1/7.07 bbox height, ~person head
+#    size_min: [ 0.05, 0.05 ] # 32 x 32 pix for 640 image
+#    size_range: 0.02 # sizerange : 0.03 - 0.07
+#    pos_range: 0.1
+#    rotate_sigma: 0.05
+#    rotate_z_sigma: 0.0
+#    force_ratio: 1.0
+
+
+  # AF1
+#  motion_patch:
+#    size_mu: [ 0.05, 0.05 ] # sqrt(0.05) ~ 0.22), for human bbox with [1:4] , patch height = 1/7.07 bbox height, ~person head
+#    size_min: [ 0.05, 0.05 ] # 32 x 32 pix for 640 image
+#    size_range: 0.02 # sizerange : 0.03 - 0.07
+#    pos_range: 0.2
+#    rotate_sigma: 0.05
+#    rotate_z_sigma: 0.2
+#    force_ratio: 1.0
+
+  # SR2
+#  motion_patch:
+#    size_mu: [ 0.05, 0.05 ] # sqrt(0.05) ~ 0.22), for human bbox with [1:4] , patch height = 1/7.07 bbox height, ~person head
+#    size_min: [ 0.05, 0.05 ] # 32 x 32 pix for 640 image
+#    size_range: 0.02 # sizerange : 0.03 - 0.07
+#    pos_range: 0.1
+#    rotate_sigma: 0.05
+#    rotate_z_sigma: 0.0
+#    force_ratio: 1.0
+
+
+
+  det_loss:
+    supress_clsses: 0
+    iou_thresh: 0.3
+    conf_thresh: 0.01
+
+  evaluation:
+    mAP1:
+      name: "mAP c50"
+      type: "AP single"
+      iou: 0.5
+      conf: 0.5
+
+    mAP2:
+      name: "mAP c01"
+      type: "AP single"
+      iou: 0.5
+      conf: 0.1
+
+    mAP3:
+      name: "mAP c001"
+      type: "AP single"
+      iou: 0.5
+      conf: 0.01
+
+    mAPiou75:
+      name: "mAP c50iou75"
+      type: "AP single"
+      iou: 0.75
+      conf: 0.5
+
+    ssim:
+      name: "SSIM"
+      type: "ssim"
+
+    lpips:
+      name: "LPIPS"
+      type: "lpips"
+
+    msssim:
+      name: "MS-SSIM"
+      type: "msssim"
+
+
+
+
+
