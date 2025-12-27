@@ -38,7 +38,7 @@ pip install diffusers torchattacks kornia imgaug openai-clip opencv-python matpl
 
 See [README.md](sources_root/det_root/detlib/README.md), section _Pretrained models_.
 
-This submodule is from [T-SEA](https://github.com/VDIGPKU/T-SEA) project. See [LICENSE](https://github.com/VDIGPKU/T-SEA?tab=readme-ov-file#license)].
+This submodule is from [T-SEA](https://github.com/VDIGPKU/T-SEA) project. See [LICENSE](https://github.com/VDIGPKU/T-SEA?tab=readme-ov-file#license).
 
 4. Download the datasets.
    
@@ -94,3 +94,6 @@ The results are stored in the logs directory. Please refer to [https://github.co
 }
 ```
 
+# License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
