@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project contains the official implementation for the IEEE TPAMI 2025 Paper **DynamicPAE: DynamicPAE: Generating Scene-Aware Physical Adversarial Examples in Real-Time**'.
+This project contains the official implementation for the IEEE TPAMI 2025 Paper [**DynamicPAE: DynamicPAE: Generating Scene-Aware Physical Adversarial Examples in Real-Time**'](https://ieeexplore.ieee.org/document/11219170).
 
 ## Directory Structure
 
@@ -86,10 +86,10 @@ The results are stored in the logs directory. Please refer to [https://github.co
   author={Hu, Jin and Liu, Xianglong and Wang, Jiakai and Zhang, Junkai and Yang, Xianqi and Qin, Haotong and Ma, Yuqing and Xu, Ke},
   journal={IEEE Transactions on Pattern Analysis and Machine Intelligence}, 
   title={DynamicPAE: Generating Scene-Aware Physical Adversarial Examples in Real-Time}, 
-  year={2025},
-  volume={},
-  number={},
-  pages={1-18},
+  year={2026},
+  volume={48},
+  number={3},
+  pages={2413-2430},
   doi={10.1109/TPAMI.2025.3626068}
 }
 ```
